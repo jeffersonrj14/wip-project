@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { SizeIndicator } from '@/components/shared/sizeIndicator'
 import { Analytics } from '@/components/shared/analytics'
 import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/constants'
+import grid from './grid.svg'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -99,6 +100,18 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang='en-US'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <div
+          className='absolute inset-0 -z-20 size-full'
+          style={{
+            backgroundImage: `url(${grid.src})`
+          }}
+        />
+        <div
+          className='absolute inset-0 -z-10 size-full'
+          style={{
+            backgroundImage: 'linear-gradient(0deg, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0) 100%)'
+          }}
+        />
         {process.env.NODE_ENV === 'development' && <SizeIndicator />}
         <main>{children}</main>
         <Analytics />
