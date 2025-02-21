@@ -6,17 +6,17 @@ import useSWR from 'swr'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-type NowPlayingSong = {
-  isPlaying: boolean
+type RecentlyPlayedSong = {
   name: string
   artist: string
   album: string
   albumImage: string
   songUrl: string
+  playedAt: string
 }
 
-export default function Spotify() {
-  const { data, error } = useSWR<NowPlayingSong>('/api/nowplaying', fetcher)
+export default function RecentlyPlayed() {
+  const { data, error } = useSWR<RecentlyPlayedSong>('/api/recentlyplayed', fetcher)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -50,14 +50,18 @@ export default function Spotify() {
   return (
     <div>
       <div>
-        {!data?.isPlaying ? (
+        {!data ? (
           <div>
             <p className='flex items-center text-zinc-400 font-extrabold text-lg sm:text-xl'>
-              Not Playing
+              No recently played tracks
             </p>
           </div>
         ) : (
           <>
+            <span className='truncate font-medium w-48'>
+              <span className='font-semibold '>Recently play at:</span>{' '}
+              {new Date(data.playedAt).toLocaleTimeString()}
+            </span>
             <div className='items-center flex gap-1 text-zinc-400'>
               <Image
                 src={data.albumImage}
